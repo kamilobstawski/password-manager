@@ -7,6 +7,7 @@ from .models import Entry
 
 
 def make_hash_value(entry, timestamp):
+    timestamp = timestamp.strftime('%y-%m-%d %H:%M')
     hash = hashlib.sha256('{}'.format(str(entry.pk) + entry.password + entry.login + timestamp).encode())
     return hash.hexdigest()
 
@@ -14,7 +15,7 @@ def make_hash_value(entry, timestamp):
 def generate_link(entry_pk, request):
     http_host = 'http://' + request.META['HTTP_HOST']
     entry = Entry.objects.get(pk=entry_pk)
-    timestamp = timezone.now().strftime('%y-%m-%d %H:%M')
+    timestamp = timezone.now()
     return http_host + '/temporary-entry/' + make_hash_value(entry, timestamp)
 
 
