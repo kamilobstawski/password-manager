@@ -62,9 +62,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'django.contrib.auth.backends.AllowAllUsersModelBackend',
         'rest_framework.authentication.BasicAuthentication',
+
     ),
 }
+
 
 ROOT_URLCONF = 'password_manager.urls'
 

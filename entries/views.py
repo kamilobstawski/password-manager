@@ -19,41 +19,34 @@ from . import service
 
 class EntryView(RetrieveAPIView):
     model = Entry
-    permission_classes = (AllowAny,)
     serializer_class = EntrySerializer
     queryset = Entry.objects.all()
 
 
 class ListEntryView(ListAPIView):
     model = Entry
-    permission_classes = (AllowAny,)
     serializer_class = EntrySerializer
     queryset = Entry.objects.all()
 
 
 class CreateEntryView(CreateAPIView):
     model = Entry
-    permission_classes = (AllowAny,)
     serializer_class = EntrySerializer
 
 
 class UpdateEntryView(UpdateAPIView):
     model = Entry
-    permission_classes = (AllowAny,)
     serializer_class = EntrySerializer
     queryset = Entry.objects.all()
 
 
 class DeleteEntryView(DestroyAPIView):
     model = Entry
-    permission_classes = (AllowAny,)
     serializer_class = EntrySerializer
     queryset = Entry.objects.all()
 
 
 class GenerateLink(APIView):
-    permission_classes = (AllowAny,)
-
     def get(self, request, entry_pk):
         link, token = service.generate_link(entry_pk)
         return Response({'link': link, 'token': token})

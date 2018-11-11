@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
@@ -8,6 +9,10 @@ from entries.test_factory import EntryFactory
 
 
 class ListEntryViewTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(username='admin', password='test12345')
+        self.client.force_login(user)
+
     def test_listing(self):
         EntryFactory()
         response = self.client.get(reverse('entries:entries'))
@@ -17,6 +22,10 @@ class ListEntryViewTest(TestCase):
 
 
 class GetEntryViewTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(username='admin', password='test12345')
+        self.client.force_login(user)
+
     def test_get(self):
         entry = EntryFactory()
         response = self.client.get(reverse('entries:get_entry', args=[entry.pk]))
@@ -25,6 +34,10 @@ class GetEntryViewTest(TestCase):
 
 
 class CreateEntryViewTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(username='admin', password='test12345')
+        self.client.force_login(user)
+
     def test_valid_creation(self):
         data = {
             'site_name': 'google',
@@ -32,6 +45,7 @@ class CreateEntryViewTest(TestCase):
             'login': 'admin',
             'password': 'test12345'
         }
+        self.client.login()
         response = self.client.post(reverse('entries:create_entry'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, {
@@ -47,6 +61,8 @@ class CreateEntryViewTest(TestCase):
 class UpdateEntryViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
+        user = User.objects.create(username='admin', password='test12345')
+        self.client.force_login(user)
 
     def test_valid_update(self):
         entry = EntryFactory()
@@ -62,6 +78,10 @@ class UpdateEntryViewTest(TestCase):
 
 
 class DeleteEntryViewTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(username='admin', password='test12345')
+        self.client.force_login(user)
+        
     def test_listing(self):
         entry = EntryFactory()
         self.assertEqual(len(Entry.objects.all()), 1)
