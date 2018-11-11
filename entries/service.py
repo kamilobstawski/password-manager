@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 
+from django.conf import settings
 from django.utils import timezone
 
 from .models import Entry
@@ -12,11 +13,12 @@ def make_hash_value(entry, timestamp):
     return hash.hexdigest()
 
 
-def generate_link(entry_pk, request):
-    http_host = 'http://' + request.META['HTTP_HOST']
+def generate_link(entry_pk):
+    http_host = settings.FRONT_END_URL
     entry = Entry.objects.get(pk=entry_pk)
     timestamp = timezone.now()
-    return http_host + '/temporary-entry/' + make_hash_value(entry, timestamp)
+    token = make_hash_value(entry, timestamp)
+    return http_host + '/temporary-entry/' + token, token
 
 
 def check_token(token):

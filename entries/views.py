@@ -55,8 +55,8 @@ class GenerateLink(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, entry_pk):
-        link = service.generate_link(entry_pk, request)
-        return Response({'link': link})
+        link, token = service.generate_link(entry_pk)
+        return Response({'link': link, 'token': token})
 
 
 class TemporaryEntryView(APIView):

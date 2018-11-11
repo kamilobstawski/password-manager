@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.utils import timezone
-from mock import Mock
 
 from entries.test_factory import EntryFactory
 from entries import service
@@ -13,9 +12,7 @@ class GenerateLinkToolsTest(TestCase):
 
     def test_generate_link(self):
         entry = EntryFactory()
-        request = Mock()
-        request.META = {'HTTP_HOST': 'localhost:8000'}
-        self.assertIsNotNone(service.generate_link(entry.pk, request))
+        self.assertIsNotNone(service.generate_link(entry.pk))
 
     def test_correct_token_generated_now(self):
         [EntryFactory() for i in range(10)]
