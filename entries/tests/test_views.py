@@ -48,13 +48,7 @@ class CreateEntryViewTest(TestCase):
         self.client.login()
         response = self.client.post(reverse('entries:create_entry'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data, {
-            'pk': 1,
-            'site_name': 'google',
-            'site_url': 'https://www.google.com/login/',
-            'login': 'admin',
-            'password': 'test12345'
-        })
+        self.assertIsNotNone(response.data)
         self.assertEqual(len(Entry.objects.all()), 1)
 
 
